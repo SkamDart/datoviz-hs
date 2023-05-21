@@ -1,5 +1,5 @@
 {
-  description = "Almost raw Haskell bindings to libgccjit.";
+  description = "Almost raw Haskell bindings to datoviz.";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
@@ -47,7 +47,9 @@
           , cglm
           , glfw
           , lib
+          , random
           , shaderc
+          , vector
           , vulkan-headers
           , vulkan-loader
           , xorg
@@ -59,14 +61,16 @@
             libraryHaskellDepends =
               [
                 base
+                random
+                vector
               ];
-            librarySystemDepends = 
+            librarySystemDepends =
             [
               cglm datoviz glfw shaderc vulkan-headers vulkan-loader
               # xorg.libX11 xorg.libXrandr xorg.libXinerama xorg.libXcursor
               # xorg.libXi xorg.libXau xorg.libXdmcp xorg.libXrender xorg.libXfixes
             ];
-            description = "Almost raw Haskell bindings to libgccjit.";
+            description = "Almost raw Haskell bindings to datoviz.";
             license = "unknown";
             hydraPlatforms = lib.platforms.none;
           };
