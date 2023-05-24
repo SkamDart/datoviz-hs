@@ -2,7 +2,9 @@
 {-# LANGUAGE PatternSynonyms #-}
 module Graphics.Datoviz.Colormaps where
 
+import Foreign.Ptr
 import Foreign.C.Types
+import Graphics.Datoviz.Types
 
 #include <datoviz/datoviz.h>
 
@@ -448,6 +450,6 @@ pattern DVZ_CPAL032_COLORBLIND8 = DvzColorMap #{const DVZ_CPAL032_COLORBLIND8}
     DVZ_CPAL032_COLORBLIND8
     #-}
 
--- foreign import capi safe "datoviz/datoviz.h" dvz_colormap_scale
---     :: DvzColorMap -> Double -> Double -> Double -> CVec4 -> IO ()
+foreign import capi safe "datoviz/datoviz.h dvz_colormap_scale" c_dvz_colormap_scale
+    :: DvzColorMap -> Double -> Double -> Double -> Ptr () -> IO ()
 

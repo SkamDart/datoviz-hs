@@ -287,5 +287,5 @@ pattern DVZ_PROP_TRANSFORM = DvzPropType #{const DVZ_PROP_TRANSFORM}
 
 foreign import ccall dvz_visual_data_source :: DvzVisual -> DvzSourceType -> Word32 -> Word32 -> Word32 -> Word32 -> Ptr () -> IO ()
 
-foreign import capi safe "datoviz/datoviz.h"
-    dvz_visual_data :: DvzVisual -> DvzPropType -> Word32 -> Word32 -> Ptr () -> IO ()
+foreign import capi safe "datoviz/datoviz.h dvz_visual_data"
+    c_dvz_visual_data :: DvzVisual -> DvzPropType -> Word32 -> Word32 -> Ptr () -> IO ()

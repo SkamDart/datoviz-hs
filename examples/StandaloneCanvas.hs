@@ -1,10 +1,8 @@
 {-# LANGUAGE CApiFFI #-}
 module Main where
 
-import Data.Word
-
+import qualified Data.Vector.Storable as VS
 import Graphics.Datoviz
-import Foreign (Ptr)
 
 foreign import capi unsafe "datoviz/datoviz.h" dvz_rand_normal :: IO Float
 foreign import capi unsafe "datoviz/datoviz.h" dvz_rand_float :: IO Float
@@ -39,15 +37,32 @@ main = do
         pos <- mkPosVec n
         size <- mkSizeVec n
         color <- mkColorVec n
-        mapM_ (\(p, d) -> dvz_visual_data visual p 0 n d) [(DVZ_PROP_POS, pos), (DVZ_PROP_COLOR, color), (DVZ_PROP_MARKER_SIZE, size)]
+        dvz_visual_data visual DVZ_PROP_POS 0 (fromIntegral n) pos
+        dvz_visual_data visual DVZ_PROP_COLOR 0 (fromIntegral n) color
+        dvz_visual_data visual DVZ_PROP_MARKER_SIZE 0 (fromIntegral n) size
         dvz_app_run app 0
 
-mkColorVec :: Word32 -> IO (Ptr DVe)
-mkColorVec n = do
+mkPosVec :: Int -> IO (VS.Vector DVec3)
+mkPosVec n = VS.generateM n go
+    where
+        go _ = do
+            z <- dvz_rand_normal
+            o <- dvz_rand_normal
+            pure $ FsVec $ VS.fromList (fmap realToFrac [z, o, 0.0])
 
+mkColorVec :: Int -> IO (VS.Vector CVec4)
+mkColorVec n = VS.generateM n go
+    where
+        go _ = do
+            let v = FsVec $ VS.fromList [0, 0, 0, 0]
+            c <- dvz_rand_float
+            dvz_colormap_scale DVZ_CMAP_VIRIDIS (realToFrac c) 0 1 v
+            pure v
 
-mkSizeVec :: Word32 -> IO (Ptr ())
-mkSizeVec n = undefined
+mkSizeVec :: Int -> IO (VS.Vector Float)
+mkSizeVec n = VS.generateM n go
+    where
+        go _ = do
+            s <- dvz_rand_float
+            pure (2.0 + 38.0 * s)
 
-mkPosVec :: Word32 -> IO (Ptr ())
-mkPosVec n = undefined

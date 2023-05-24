@@ -1,6 +1,6 @@
 {-# LANGUAGE DataKinds #-}
-{-# LANGUAGE ImportQualifiedPost #-}
 {-# LANGUAGE GADTs #-}
+{-# LANGUAGE ImportQualifiedPost #-}
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications #-}
@@ -11,7 +11,7 @@ import Data.Vector.Storable qualified as VS
 import Foreign
 import GHC.TypeNats
 
--- | Fixed-Sized Vector with type `a` and length of `b`.
+-- | Fixed-Sized Vector with type `a` and length `b`.
 newtype FsVec a (b :: Nat) = FsVec (VS.Vector a)
 
 -- 8-bit integers
