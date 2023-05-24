@@ -1,32 +1,11 @@
-{-# LANGUAGE ImportQualifiedPost #-}
-{-# LANGUAGE PatternSynonyms #-}
+module Mandelbrot.Internal where
 
-module Graphics.Datoviz
-( module Graphics.Datoviz
-, module Graphics.Datoviz.App
-, module Graphics.Datoviz.Canvas
-, module Graphics.Datoviz.Scene
-, module Graphics.Datoviz.Visuals
-, module Graphics.Datoviz.Vklite
-) where
+#include <vulkan/vulkan_core.h>
 
-import Control.Exception
 import Foreign.C
 import Foreign.Marshal.Array
 import Foreign.Ptr
-
-import Graphics.Datoviz.App
-import Graphics.Datoviz.Canvas
-import Graphics.Datoviz.Scene
-import Graphics.Datoviz.Visuals
-import Graphics.Datoviz.Vklite
-
--- eventually we should move this out so this export becomes 'pure' haskell
-#include <vulkan/vulkan_core.h>
-
--- | Create a DvzApp with a provided backend.
-withDvzApp :: DvzBackend -> (DvzApp -> IO a) -> IO a
-withDvzApp backend = bracket (dvz_app backend) dvz_app_destroy
+import Graphics.Datoviz
 
 mandelbrot :: IO ()
 mandelbrot = withDvzApp DVZ_BACKEND_GLFW $ \app -> do
@@ -50,4 +29,3 @@ mandelbrot = withDvzApp DVZ_BACKEND_GLFW $ \app -> do
       withArray vertices $ \a -> do
         dvz_visual_data_source visual DVZ_SOURCE_TYPE_VERTEX 0 0 4 4 (castPtr a)
         dvz_app_run app 0
-
