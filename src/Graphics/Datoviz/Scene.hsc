@@ -7,7 +7,6 @@ import Data.Word
 import Foreign.C.Types
 import Foreign.Ptr
 import Graphics.Datoviz.Canvas
-import Graphics.Datoviz.Colormaps
 import Graphics.Datoviz.Panel
 import Graphics.Datoviz.Vklite
 import Graphics.Datoviz.Visuals

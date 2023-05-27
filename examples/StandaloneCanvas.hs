@@ -48,13 +48,13 @@ mkPosVec n = VS.generateM n go
         go _ = do
             z <- dvz_rand_normal
             o <- dvz_rand_normal
-            pure $ FsVec $ VS.fromList (fmap realToFrac [z, o, 0.0])
+            pure $ (DVec3 . FsVec) $ VS.fromList (fmap realToFrac [z, o, 0.0])
 
 mkColorVec :: Int -> IO (VS.Vector CVec4)
 mkColorVec n = VS.generateM n go
     where
         go _ = do
-            let v = FsVec $ VS.fromList [0, 0, 0, 0]
+            let v = (CVec4 . FsVec) $ VS.fromList [0, 0, 0, 0]
             c <- dvz_rand_float
             dvz_colormap_scale DVZ_CMAP_VIRIDIS (realToFrac c) 0 1 v
             pure v

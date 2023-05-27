@@ -4,7 +4,6 @@ module Graphics.Datoviz.Colormaps where
 
 import Foreign.Ptr
 import Foreign.C.Types
-import Graphics.Datoviz.Types
 
 #include <datoviz/datoviz.h>
 

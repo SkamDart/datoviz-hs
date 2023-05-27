@@ -33,7 +33,7 @@ withDvzApp backend = bracket (dvz_app backend) dvz_app_destroy
 
 dvz_colormap_scale :: DvzColorMap -> Double -> Double -> Double -> CVec4 -> IO ()
 dvz_colormap_scale d x y z v = do
-    -- we need to help out the typechecker here.
+    -- we need to help out the typechecker here to unwrap our newtype.
     let cv = (coerce v :: VS.Vector Word8)
     withForeignPtr (fst $ VS.unsafeToForeignPtr0 cv) $ \v' -> do
         c_dvz_colormap_scale d x y z (castPtr v')
