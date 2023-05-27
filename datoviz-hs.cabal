@@ -80,6 +80,7 @@ library
 
     -- Other library packages from which modules are imported.
     build-depends:    base ^>=4.16.3.0
+                    , linear
                     , vector
 
     -- Directories containing source files.
@@ -105,6 +106,7 @@ executable standalone-canvas
     hs-source-dirs:   examples
     build-depends:    base ^>=4.16.3.0
                     , datoviz-hs
+                    , linear
                     , random
                     , vector
     default-language: Haskell2010

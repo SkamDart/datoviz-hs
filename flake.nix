@@ -47,6 +47,7 @@
           , cglm
           , glfw
           , lib
+          , linear
           , random
           , shaderc
           , vector
@@ -61,6 +62,7 @@
             libraryHaskellDepends =
               [
                 base
+                linear
                 random
                 vector
               ];

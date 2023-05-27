@@ -4,6 +4,8 @@ module Main where
 import qualified Data.Vector.Storable as VS
 import Graphics.Datoviz
 
+import qualified Linear.V3 as L
+
 foreign import capi unsafe "datoviz/datoviz.h" dvz_rand_normal :: IO Float
 foreign import capi unsafe "datoviz/datoviz.h" dvz_rand_float :: IO Float
 
@@ -48,16 +50,14 @@ mkPosVec n = VS.generateM n go
         go _ = do
             z <- dvz_rand_normal
             o <- dvz_rand_normal
-            pure $ (DVec3 . FsVec) $ VS.fromList (fmap realToFrac [z, o, 0.0])
+            pure $ DVec3 (fmap realToFrac (L.V3 z o 0.0))
 
 mkColorVec :: Int -> IO (VS.Vector CVec4)
 mkColorVec n = VS.generateM n go
     where
         go _ = do
-            let v = (CVec4 . FsVec) $ VS.fromList [0, 0, 0, 0]
             c <- dvz_rand_float
-            dvz_colormap_scale DVZ_CMAP_VIRIDIS (realToFrac c) 0 1 v
-            pure v
+            dvz_colormap_scale DVZ_CMAP_VIRIDIS (realToFrac c) 0 1
 
 mkSizeVec :: Int -> IO (VS.Vector Float)
 mkSizeVec n = VS.generateM n go
