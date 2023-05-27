@@ -9,7 +9,6 @@ nix develop
 # manually find the datoviz include path in LD_LIBRARY_PATH and run these two commands for now
 glslc -o mandelbrot.frag.spv mandelbrot.frag
 glslc -o mandelbrot.vert.spv mandelbrot.vert -I /nix/store/fsdinc3ikljgf7rbrvc1abyh9421p1mh-datoviz/include/datoviz/glsl/
-cabal repl
-mandelbrot
+cabal run mandelbrot
 ```
 
