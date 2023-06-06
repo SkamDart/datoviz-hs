@@ -44,10 +44,12 @@
         derivation =
           { mkDerivation
           , base
+          , cassava
           , cglm
           , glfw
           , lib
           , linear
+          , optparse-applicative
           , random
           , shaderc
           , vector
@@ -72,6 +74,7 @@
               # xorg.libX11 xorg.libXrandr xorg.libXinerama xorg.libXcursor
               # xorg.libXi xorg.libXau xorg.libXdmcp xorg.libXrender xorg.libXfixes
             ];
+            executableHaskellDepends = [ cassava optparse-applicative ];
             description = "Almost raw Haskell bindings to datoviz.";
             license = "unknown";
             hydraPlatforms = lib.platforms.none;
@@ -97,4 +100,3 @@
 
       });
 }
-

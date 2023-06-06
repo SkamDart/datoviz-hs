@@ -100,6 +100,21 @@ executable mandelbrot
                     , vector
     default-language: Haskell2010
 
+executable dvz-csv
+    import:           warnings
+    main-is:          DVZCSV.hs
+    hs-source-dirs:   examples
+    build-depends:    base ^>=4.16.3.0
+                    , bytestring
+                    , cassava
+                    , datoviz-hs
+                    , linear
+                    , optparse-applicative
+                    , random
+                    , vector
+    ghc-options:      -O2
+    default-language: Haskell2010
+
 executable standalone-canvas
     import:           warnings
     main-is:          StandaloneCanvas.hs
