@@ -2,7 +2,7 @@
   description = "Almost raw Haskell bindings to datoviz.";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -22,11 +22,11 @@
 
         datoviz-derivation =
           { stdenv, cglm, cmake, fetchFromGitHub, glfw, shaderc, vulkan-headers, vulkan-loader, zlib }:
-          stdenv.mkDerivation 
+          stdenv.mkDerivation
           {
              name = "datoviz";
              version = "0.0.1";
-             description = 
+             description =
                "High-performance GPU interactive scientific data visualization with Vulkan.";
              src = fetchFromGitHub ({
                  owner = "datoviz";
