@@ -28,7 +28,7 @@ words' c s =
     [] -> []
     s' -> w : words' c s'' where (w, s'') = break (== c) s'
 
-data Config = Config {xcol :: Int, ycols :: [Int], filePath :: FilePath}
+data Config = Config {linesOrPoints :: Bool, xcol :: Int, ycols :: [Int], fps :: Bool, filePath :: FilePath}
   deriving (Eq, Ord, Show)
 
 parseFilePath :: O.Parser FilePath
@@ -60,8 +60,26 @@ parseYCols =
       [(r, [])] -> pure r
       _ -> Left $ "cannot parse value `" <> s <> "'"
 
+parseLineOrPoint :: O.Parser Bool
+parseLineOrPoint =
+  switch $
+    mconcat
+      [ long "line",
+        short 'l',
+        help "Use lines instead of points."
+      ]
+
+parseFPS :: O.Parser Bool
+parseFPS =
+  switch $
+    mconcat
+      [ long "fps",
+        short 'f',
+        help "Display frames per second in visualization window."
+      ]
+
 parseConfig :: O.Parser Config
-parseConfig = Config <$> parseXCol <*> parseYCols <*> parseFilePath
+parseConfig = Config <$> parseLineOrPoint <*> parseXCol <*> parseYCols <*> parseFPS <*> parseFilePath
 
 parserOpts :: O.ParserInfo Config
 parserOpts =
@@ -78,7 +96,7 @@ main = do
     gpu <- dvz_gpu_best app
 
     -- Create a canvas with a specified size.
-    canvas <- dvz_canvas gpu 2560 1440 0x03 -- 0x03 => show FPS
+    canvas <- dvz_canvas gpu 2560 1440 (if fps conf then 0x03 else 0x01) -- 0x03 => show FPS
 
     -- We use a white background color (RGB floating-point values in [0, 1]).
     dvz_canvas_clear_color canvas 1 1 1
@@ -95,7 +113,8 @@ main = do
     withLoadedCSV (filePath conf) (xcol conf) (ycols conf) $ \arrs -> do
       k <- peek $ dynArraySize (arrs V.! 0)
       V.forM_ (V.zip (V.enumFromN 0 k :: V.Vector Int) arrs) $ \(i, arr) -> do
-        visual <- dvz_scene_visual panel DVZ_VISUAL_LINE_STRIP 0
+        let vis = if linesOrPoints conf then DVZ_VISUAL_LINE_STRIP else DVZ_VISUAL_MARKER
+        visual <- dvz_scene_visual panel vis 0
         col <-
           VS.replicateM k $
             dvz_colormap_scale
