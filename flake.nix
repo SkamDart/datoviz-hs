@@ -47,6 +47,7 @@
           , cassava
           , cglm
           , glfw
+          , hmatrix
           , lib
           , linear
           , optparse-applicative
@@ -64,6 +65,7 @@
             libraryHaskellDepends =
               [
                 base
+                hmatrix 
                 linear
                 random
                 vector

@@ -45,4 +45,3 @@ dvz_visual_data :: Storable a => DvzVisual -> DvzPropType -> Word32 -> Word32 ->
 dvz_visual_data dv p i c v =
     withForeignPtr (fst $ VS.unsafeToForeignPtr0 v) $ \d'-> do
         c_dvz_visual_data dv p i c (castPtr d')
-
